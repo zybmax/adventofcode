@@ -12,8 +12,6 @@ def main():
         data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
     )
 
-    # Create a way to map the number to the coordinate fast for each board: A list that contains the (i, j) coordinates.
-    # That will help find a row/column quickly.
     boards_already_won = [False] * len(boards)
     num_boards_left = len(boards)
     found = False

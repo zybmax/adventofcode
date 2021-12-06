@@ -1,10 +1,7 @@
-"""https://adventofcode.com/2021/day/5#part2"""
+"""https://adventofcode.com/2021/day/6"""
 import os
 import os.path
-from typing import List, Tuple
-import re
-
-from collections import Counter
+from typing import List
 
 
 def main():
@@ -12,7 +9,7 @@ def main():
         data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
     )
 
-    num_days = 256
+    num_days = 80
 
     for day in range(num_days):
         for index_fish in range(len(days_left)):

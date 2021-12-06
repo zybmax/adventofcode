@@ -1,4 +1,4 @@
-"""https://adventofcode.com/2021/day/5#part2"""
+"""https://adventofcode.com/2021/day/6"""
 import os
 import os.path
 from typing import List

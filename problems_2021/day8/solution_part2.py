@@ -62,16 +62,16 @@ def _decode(codes: List[_Code]) -> Dict[int, int]:
 
     Based on the 10 codes representing 10 digits (0-9) (unordered), returns the mapping between strings to digits.
     """
-    signature = _get_unique_occurrence_tuples_and_num_total_occurrences(codes)
+    signatures = _get_unique_occurrence_tuples_and_num_total_occurrences(codes)
 
     true_code_nums_by_apparent_code_num = {}
-    true_code_nums_by_apparent_code_num[signature.index(((0, 0, 1, 1), 8))] = 0
-    true_code_nums_by_apparent_code_num[signature.index(((0, 1, 0, 1), 6))] = 1
-    true_code_nums_by_apparent_code_num[signature.index(((1, 1, 1, 1), 8))] = 2
-    true_code_nums_by_apparent_code_num[signature.index(((0, 1, 0, 1), 7))] = 3
-    true_code_nums_by_apparent_code_num[signature.index(((0, 0, 0, 1), 4))] = 4
-    true_code_nums_by_apparent_code_num[signature.index(((1, 1, 1, 1), 9))] = 5
-    true_code_nums_by_apparent_code_num[signature.index(((0, 0, 0, 1), 7))] = 6
+    true_code_nums_by_apparent_code_num[signatures.index(((0, 0, 1, 1), 8))] = 0
+    true_code_nums_by_apparent_code_num[signatures.index(((0, 1, 0, 1), 6))] = 1
+    true_code_nums_by_apparent_code_num[signatures.index(((1, 1, 1, 1), 8))] = 2
+    true_code_nums_by_apparent_code_num[signatures.index(((0, 1, 0, 1), 7))] = 3
+    true_code_nums_by_apparent_code_num[signatures.index(((0, 0, 0, 1), 4))] = 4
+    true_code_nums_by_apparent_code_num[signatures.index(((1, 1, 1, 1), 9))] = 5
+    true_code_nums_by_apparent_code_num[signatures.index(((0, 0, 0, 1), 7))] = 6
 
     return true_code_nums_by_apparent_code_num
 

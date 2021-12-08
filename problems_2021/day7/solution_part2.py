@@ -13,14 +13,25 @@ def main():
 
     # Mean minimizes the sum of squared distances from all points.
     mean_position = np.mean(positions)
-    # Try both the floor and ceil, and pick whichever is smaller in the squared distance.
-    cost_floor = _cost(
-        alignment_position=np.floor(mean_position), starting_positions=positions
+    # The gradient of the total cost is:
+    # 1/n df/fx = x - mu + 1/2n sum_i(sng(x - x_i)), where the last term is bounded by (-0.5, 0.5). Therefore, the
+    # fractional optimal position must reside in (mean - 0.5, mean + 0.5). Therefore, only need to check the floor and
+    # ceil of both (mean - 0.5) and (mean + 0.5).
+    positions_to_check = {
+        np.floor(mean_position - 0.5),
+        np.ceil(mean_position - 0.5),
+        np.floor(mean_position + 0.5),
+        np.ceil(mean_position + 0.5),
+    }
+
+    print(
+        min(
+            [
+                _cost(alignment_position=x, starting_positions=positions)
+                for x in positions_to_check
+            ]
+        )
     )
-    cost_ceil = _cost(
-        alignment_position=np.ceil(mean_position), starting_positions=positions
-    )
-    print(min(cost_floor, cost_ceil))
 
 
 def _read_data(data_file_path: str) -> List[int]:

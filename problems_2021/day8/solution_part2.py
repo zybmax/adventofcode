@@ -6,8 +6,8 @@ from typing import List
 from typing import Tuple
 
 
-# A code is a string (e.g., "cf") converted to the numerical representation (e.g., [2, 5]) that is
-# order-insensitive, which represents a single digit. A code is made up of several code nums (e.g., 2 and 5).
+# A code is the numerical representation (e.g., [2, 5]) of a string (e.g., "cf") representing a single digit. A code
+# is order-insensitive. A code is made up of several code nums (e.g., 2 and 5).
 _Code: TypeAlias = List[int]
 
 

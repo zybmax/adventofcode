@@ -12,6 +12,9 @@ def main():
         data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
     )
 
+    # Need to take the negative because `peak_local_max` finds peaks not valleys.  Need to also add 10 to make all
+    # heights positive, because under the hood `peak_local_max` uses a max filter with zero padding on the boundaries.
+    # If the heights are negatives, the low points on the boundaries will be wrongly missed.
     peak_coordinates = peak_local_max(
         -height_map.astype(int) + 10,
         footprint=np.array([[0, 1, 0], [1, 1, 1], [0, 1, 0]], dtype=bool),
@@ -19,7 +22,6 @@ def main():
     )
 
     basin_mask = np.zeros(shape=height_map.shape, dtype=bool)
-
     point_collections = [[] for _ in range(len(peak_coordinates))]
     for peak_coordinate, point_collection in zip(peak_coordinates, point_collections):
         _flood_fill(
@@ -59,14 +61,17 @@ def _flood_fill(
     points_in_basin: List[Tuple[int, int]],
 ) -> None:
     """Recursively updates `basin_mask` and puts valid basin points to `points_in_basin`."""
+    # Out of bounds.
     if not (
         0 <= point[0] < height_map.shape[0] and 0 <= point[1] < height_map.shape[1]
     ):
         return
 
+    # Hit a wall.
     if height_map[point[0], point[1]] == 9:
         return
 
+    # Already visited.
     if basin_mask[point[0], point[1]]:
         return
 

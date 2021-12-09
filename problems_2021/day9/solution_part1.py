@@ -10,6 +10,9 @@ def main():
         data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
     )
 
+    # Need to take the negative because `peak_local_max` finds peaks not valleys.  Need to also add 10 to make all
+    # heights positive, because under the hood `peak_local_max` uses a max filter with zero padding on the boundaries.
+    # If the heights are negatives, the low points on the boundaries will be wrongly missed.
     peak_coordinates = peak_local_max(
         -height_map.astype(int) + 10,
         footprint=np.array([[0, 1, 0], [1, 1, 1], [0, 1, 0]], dtype=bool),

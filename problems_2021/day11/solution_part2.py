@@ -64,16 +64,13 @@ def _find_saturated_indices(energy_level_map: np.ndarray) -> List[Tuple[int, int
 def _find_neighbors(
     point: Tuple[int, int], shape: Tuple[int, int]
 ) -> List[Tuple[int, int]]:
-    ret = []
-    for i_offset, j_offset in itertools.product(range(-1, 2), range(-1, 2)):
-        if (
-            0 <= point[0] + i_offset < shape[0]
-            and 0 <= point[1] + j_offset < shape[1]
-            and (i_offset, j_offset) != (0, 0)
-        ):
-            ret.append((point[0] + i_offset, point[1] + j_offset))
-
-    return ret
+    return [
+        (point[0] + i_offset, point[1] + j_offset)
+        for i_offset, j_offset in itertools.product(range(-1, 2), range(-1, 2))
+        if 0 <= point[0] + i_offset < shape[0]
+        and 0 <= point[1] + j_offset < shape[1]
+        and (i_offset, j_offset) != (0, 0)
+    ]
 
 
 if __name__ == "__main__":

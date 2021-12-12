@@ -57,7 +57,7 @@ class _GraphPathFinder:
             return
 
         for neighbor in self._graph[path[-1]]:
-            if neighbor != neighbor.lower() or neighbor not in path:
+            if neighbor.isupper() or neighbor not in path:
                 self._find_path_recursive(
                     path + [neighbor], small_cave_visited_twice=small_cave_visited_twice
                 )

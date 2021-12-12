@@ -55,7 +55,7 @@ class _GraphPathFinder:
             return
 
         for neighbor in self._graph[path[-1]]:
-            if neighbor == neighbor.lower() and neighbor in path:
+            if neighbor.islower() and neighbor in path:
                 continue
 
             self._find_path_recursive(path + [neighbor])

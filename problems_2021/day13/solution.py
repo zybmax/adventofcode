@@ -56,6 +56,7 @@ def _read_data(data_file_path: str) -> Tuple[_PointSet, List[Tuple[int, int]]]:
     for line in lines:
         line = line.lstrip().rstrip()
 
+        # An empty line is the separator between the point set and the folding instructions.
         if not line:
             parse_point_set = False
             continue
@@ -65,6 +66,7 @@ def _read_data(data_file_path: str) -> Tuple[_PointSet, List[Tuple[int, int]]]:
             point_set.add((int(y), int(x)))
             continue
 
+        # Each folding instruction starts with the string "fold along ".
         axis, num = line[len("fold along ") :].split("=")
         fold_instructions.append((0 if axis == "y" else 1, int(num)))
 

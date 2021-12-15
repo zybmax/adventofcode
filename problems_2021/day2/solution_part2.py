@@ -8,9 +8,7 @@ from collections import Counter
 
 
 def main():
-    commands_and_distances = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    commands_and_distances = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     y, x, aim = 0, 0, 0
 

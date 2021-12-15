@@ -8,9 +8,7 @@ from collections import Counter
 
 
 def main():
-    depths = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    depths = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     count = 0
     for i in range(len(depths) - 1):

@@ -6,9 +6,7 @@ from typing import Tuple
 
 
 def main():
-    digits_and_outputs = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    digits_and_outputs = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     unique_lengths = {2, 4, 3, 7}
     count = 0
@@ -24,9 +22,7 @@ def _read_data(data_file_path: str) -> List[Tuple[List[str], List[str]]]:
 
     ret = []
     for line in lines:
-        strings = [
-            x.lstrip().rstrip() for x in re.split(" \\| | ", line.lstrip().rstrip())
-        ]
+        strings = [x.lstrip().rstrip() for x in re.split(" \\| | ", line.lstrip().rstrip())]
         ret.append((strings[:10], strings[10:]))
 
     return ret

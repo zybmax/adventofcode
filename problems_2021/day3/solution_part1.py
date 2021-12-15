@@ -9,9 +9,7 @@ import numpy as np
 
 
 def main():
-    binary_strings = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    binary_strings = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
     string_length = len(binary_strings[0])
 
     gamma = ""

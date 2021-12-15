@@ -11,15 +11,11 @@ _InsertionRule = Dict[Tuple[str, str], str]
 
 
 def main():
-    template, insertion_rule = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    template, insertion_rule = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     template_as_list = [x for x in template]
     for i in range(10):
-        _do_one_step_insertion(
-            template_as_list=template_as_list, insertion_rule=insertion_rule
-        )
+        _do_one_step_insertion(template_as_list=template_as_list, insertion_rule=insertion_rule)
 
     print("".join(template_as_list))
 
@@ -44,9 +40,7 @@ def _read_data(data_file_path: str) -> Tuple[str, _InsertionRule]:
     return lines[0].lstrip().rstrip(), insertion_rules
 
 
-def _do_one_step_insertion(
-    template_as_list: List[str], insertion_rule: _InsertionRule
-) -> None:
+def _do_one_step_insertion(template_as_list: List[str], insertion_rule: _InsertionRule) -> None:
     """Modifies `template_as_list` in-place to do one-step pair insertion."""
     num_chars = len(template_as_list)
     # The offset caused by inserting new characters.
@@ -54,10 +48,7 @@ def _do_one_step_insertion(
     for i in range(num_chars - 1):
         try:
             template_as_list.insert(
-                i + offset + 1,
-                insertion_rule[
-                    (template_as_list[i + offset], template_as_list[i + offset + 1],)
-                ],
+                i + offset + 1, insertion_rule[(template_as_list[i + offset], template_as_list[i + offset + 1],)],
             )
         except KeyError:
             continue

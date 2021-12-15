@@ -12,9 +12,7 @@ _Code: TypeAlias = List[int]
 
 
 def main():
-    strings_and_outputs_list = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    strings_and_outputs_list = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     nums = []
     for strings, outputs in strings_and_outputs_list:
@@ -30,9 +28,7 @@ def main():
         output = 0
         for output_code in output_codes:
             output *= 10
-            output += _num_by_string_nums(
-                [true_code_nums_by_apparent_code_num[x] for x in output_code]
-            )
+            output += _num_by_string_nums([true_code_nums_by_apparent_code_num[x] for x in output_code])
 
         nums.append(output)
 
@@ -45,9 +41,7 @@ def _read_data(data_file_path: str) -> List[Tuple[List[str], List[str]]]:
 
     ret = []
     for line in lines:
-        strings = [
-            x.lstrip().rstrip() for x in re.split(" \\| | ", line.lstrip().rstrip())
-        ]
+        strings = [x.lstrip().rstrip() for x in re.split(" \\| | ", line.lstrip().rstrip())]
         ret.append((strings[:10], strings[10:]))
 
     return ret
@@ -76,17 +70,13 @@ def _decode(codes: List[_Code]) -> Dict[int, int]:
     return true_code_nums_by_apparent_code_num
 
 
-def _get_unique_occurrence_tuples_and_num_total_occurrences(
-    codes: List[_Code],
-) -> List[Tuple[Tuple[int, ...], int]]:
+def _get_unique_occurrence_tuples_and_num_total_occurrences(codes: List[_Code],) -> List[Tuple[Tuple[int, ...], int]]:
     # The return is used as a signature (like a feature vector) to uniquely identify code nums.
     code_lengths = [len(x) for x in codes]
     one_four_seven_eight_codes = [codes[code_lengths.index(x)] for x in [2, 4, 3, 7]]
     ret = []
     for letter_index in range(7):
-        unique_occurrences_tuple = tuple(
-            int(letter_index in x) for x in one_four_seven_eight_codes
-        )
+        unique_occurrences_tuple = tuple(int(letter_index in x) for x in one_four_seven_eight_codes)
         num_total_occurrences = sum([letter_index in x for x in codes])
         ret.append((unique_occurrences_tuple, num_total_occurrences))
     return ret

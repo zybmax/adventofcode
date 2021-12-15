@@ -15,9 +15,7 @@ _SWAP_DIRECTION_TABLE = _make_translation_table()
 
 
 def main():
-    lines = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    lines = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
     scores = [_check_line(line) for line in lines]
     print(median(x for x in scores if x > 0))
 

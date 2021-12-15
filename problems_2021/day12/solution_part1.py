@@ -13,9 +13,7 @@ _Graph = Dict[str, Set[str]]
 
 
 def main():
-    graph = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    graph = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     print(_GraphPathFinder(graph=graph).num_paths)
 

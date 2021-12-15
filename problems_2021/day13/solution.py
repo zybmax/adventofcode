@@ -13,15 +13,11 @@ _PointSet = Set[_Point]
 
 
 def main():
-    point_set, fold_instructions = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    point_set, fold_instructions = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     # Part 1.
     _fold(
-        point_set=point_set,
-        axis=fold_instructions[0][0],
-        position=fold_instructions[0][1],
+        point_set=point_set, axis=fold_instructions[0][0], position=fold_instructions[0][1],
     )
     print("Part 1: ", len(point_set))
 
@@ -29,10 +25,7 @@ def main():
     for axis, position in fold_instructions[1:]:
         _fold(point_set=point_set, axis=axis, position=position)
 
-    image = np.zeros(
-        shape=(max(y for y, x in point_set) + 1, max(x for y, x in point_set) + 1),
-        dtype=bool,
-    )
+    image = np.zeros(shape=(max(y for y, x in point_set) + 1, max(x for y, x in point_set) + 1), dtype=bool,)
     for point in point_set:
         image[point[0], point[1]] = True
     plt.figure()
@@ -77,11 +70,7 @@ def _fold(point_set: _PointSet, axis: int, position: int):
     """Folds `point_set` along `axis` at `position`; in-place modifies `point_set`."""
     for point in point_set.copy():
         if point[axis] > position:
-            point_set.add(
-                (2 * position - point[0], point[1])
-                if axis == 0
-                else (point[0], 2 * position - point[1])
-            )
+            point_set.add((2 * position - point[0], point[1]) if axis == 0 else (point[0], 2 * position - point[1]))
             point_set.remove(point)
 
 

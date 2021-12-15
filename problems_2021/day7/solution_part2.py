@@ -7,9 +7,7 @@ import numpy as np
 
 
 def main():
-    positions = np.array(
-        _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
-    )
+    positions = np.array(_read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")))
 
     # Mean minimizes the sum of squared distances from all points.
     mean_position = np.mean(positions)
@@ -24,14 +22,7 @@ def main():
         np.ceil(mean_position + 0.5),
     }
 
-    print(
-        min(
-            [
-                _cost(alignment_position=x, starting_positions=positions)
-                for x in positions_to_check
-            ]
-        )
-    )
+    print(min([_cost(alignment_position=x, starting_positions=positions) for x in positions_to_check]))
 
 
 def _read_data(data_file_path: str) -> List[int]:

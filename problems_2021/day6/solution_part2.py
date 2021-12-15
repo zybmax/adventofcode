@@ -5,9 +5,7 @@ from typing import List
 
 
 def main():
-    days_left_list = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    days_left_list = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     num_days = 256
 

@@ -8,9 +8,7 @@ from collections import Counter
 
 
 def main():
-    depths = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    depths = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     filtered_depths = convolve(depths, [1, 1, 1], mode="valid", method="direct")
 

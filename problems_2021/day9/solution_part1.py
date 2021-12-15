@@ -6,9 +6,7 @@ from skimage.feature import peak_local_max
 
 
 def main():
-    height_map = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    height_map = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     # Need to take the negative because `peak_local_max` finds peaks not valleys.  Need to also add 10 to make all
     # heights positive, because under the hood `peak_local_max` uses a max filter with zero padding on the boundaries.

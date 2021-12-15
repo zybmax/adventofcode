@@ -13,9 +13,7 @@ _SWAP_DIRECTION_TABLE = _make_translation_table()
 
 
 def main():
-    lines = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    lines = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     print(sum(_check_line(line) for line in lines))
 

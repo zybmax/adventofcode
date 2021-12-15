@@ -8,9 +8,7 @@ from collections import Counter
 
 
 def main():
-    vectors = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    vectors = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     final_position = (sum([x[0] for x in vectors]), sum([x[1] for x in vectors]))
     print(final_position[0] * final_position[1])

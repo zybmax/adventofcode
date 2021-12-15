@@ -8,9 +8,7 @@ import numpy as np
 
 
 def main():
-    order, boards = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    order, boards = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     boards_already_won = [False] * len(boards)
     num_boards_left = len(boards)

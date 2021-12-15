@@ -30,15 +30,7 @@ def main():
             for index in range(start_index, end_index):
                 counts_by_coordinate[(start_point[fixed_axis], index)] += 1
 
-    print(
-        len(
-            [
-                coordinate
-                for coordinate in counts_by_coordinate
-                if counts_by_coordinate[coordinate] > 1
-            ]
-        )
-    )
+    print(len([coordinate for coordinate in counts_by_coordinate if counts_by_coordinate[coordinate] > 1]))
 
 
 def _read_data(data_file_path: str) -> List[Tuple[Tuple[int, int], Tuple[int, int]]]:

@@ -8,9 +8,7 @@ from collections import Counter
 
 
 def main():
-    start_end_points = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    start_end_points = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     counts_by_coordinate = Counter()
     for start_point, end_point in start_end_points:
@@ -27,34 +25,21 @@ def main():
             moving_axis = 0 if is_vertical else 1
 
             if is_vertical:
-                for index in _range_from_start_end(
-                    start_point[moving_axis], end_point[moving_axis]
-                ):
+                for index in _range_from_start_end(start_point[moving_axis], end_point[moving_axis]):
                     counts_by_coordinate[(index, start_point[fixed_axis])] += 1
             else:
-                for index in _range_from_start_end(
-                    start_point[moving_axis], end_point[moving_axis]
-                ):
+                for index in _range_from_start_end(start_point[moving_axis], end_point[moving_axis]):
                     counts_by_coordinate[(start_point[fixed_axis], index)] += 1
 
             continue
 
         # The mode is diagonal.
         for i, j in zip(
-            _range_from_start_end(start_point[0], end_point[0]),
-            _range_from_start_end(start_point[1], end_point[1]),
+            _range_from_start_end(start_point[0], end_point[0]), _range_from_start_end(start_point[1], end_point[1]),
         ):
             counts_by_coordinate[(i, j)] += 1
 
-    print(
-        len(
-            [
-                coordinate
-                for coordinate in counts_by_coordinate
-                if counts_by_coordinate[coordinate] > 1
-            ]
-        )
-    )
+    print(len([coordinate for coordinate in counts_by_coordinate if counts_by_coordinate[coordinate] > 1]))
 
 
 def _range_from_start_end(start, end):

@@ -13,9 +13,7 @@ _Graph = Dict[str, Set[str]]
 
 
 def main():
-    graph = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    graph = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     print(_GraphPathFinder(graph=graph).num_paths)
 
@@ -49,18 +47,14 @@ class _GraphPathFinder:
 
         self._find_path_recursive(path=["start"], small_cave_visited_twice=False)
 
-    def _find_path_recursive(
-        self, path: List[str], small_cave_visited_twice: bool
-    ) -> None:
+    def _find_path_recursive(self, path: List[str], small_cave_visited_twice: bool) -> None:
         if path[-1] == "end":
             self._num_paths += 1
             return
 
         for neighbor in self._graph[path[-1]]:
             if neighbor.isupper() or neighbor not in path:
-                self._find_path_recursive(
-                    path + [neighbor], small_cave_visited_twice=small_cave_visited_twice
-                )
+                self._find_path_recursive(path + [neighbor], small_cave_visited_twice=small_cave_visited_twice)
                 continue
 
             # Neighbor already in path. If there is already a small cave visited twice, then this path will not work.

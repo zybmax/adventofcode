@@ -8,9 +8,7 @@ from skimage.feature import peak_local_max
 
 
 def main():
-    height_map = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    height_map = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     # Need to take the negative because `peak_local_max` finds peaks not valleys.  Need to also add 10 to make all
     # heights positive, because under the hood `peak_local_max` uses a max filter with zero padding on the boundaries.
@@ -55,16 +53,11 @@ def _read_data(data_file_path: str) -> np.ndarray:
 
 
 def _flood_fill(
-    point: Tuple[int, int],
-    height_map: np.ndarray,
-    basin_mask: np.ndarray,
-    points_in_basin: List[Tuple[int, int]],
+    point: Tuple[int, int], height_map: np.ndarray, basin_mask: np.ndarray, points_in_basin: List[Tuple[int, int]],
 ) -> None:
     """Recursively updates `basin_mask` and puts valid basin points to `points_in_basin`."""
     # Out of bounds.
-    if not (
-        0 <= point[0] < height_map.shape[0] and 0 <= point[1] < height_map.shape[1]
-    ):
+    if not (0 <= point[0] < height_map.shape[0] and 0 <= point[1] < height_map.shape[1]):
         return
 
     # Hit a wall.
@@ -79,28 +72,16 @@ def _flood_fill(
     points_in_basin.append(point)
 
     _flood_fill(
-        (point[0] - 1, point[1]),
-        height_map=height_map,
-        basin_mask=basin_mask,
-        points_in_basin=points_in_basin,
+        (point[0] - 1, point[1]), height_map=height_map, basin_mask=basin_mask, points_in_basin=points_in_basin,
     )
     _flood_fill(
-        (point[0] + 1, point[1]),
-        height_map=height_map,
-        basin_mask=basin_mask,
-        points_in_basin=points_in_basin,
+        (point[0] + 1, point[1]), height_map=height_map, basin_mask=basin_mask, points_in_basin=points_in_basin,
     )
     _flood_fill(
-        (point[0], point[1] - 1),
-        height_map=height_map,
-        basin_mask=basin_mask,
-        points_in_basin=points_in_basin,
+        (point[0], point[1] - 1), height_map=height_map, basin_mask=basin_mask, points_in_basin=points_in_basin,
     )
     _flood_fill(
-        (point[0], point[1] + 1),
-        height_map=height_map,
-        basin_mask=basin_mask,
-        points_in_basin=points_in_basin,
+        (point[0], point[1] + 1), height_map=height_map, basin_mask=basin_mask, points_in_basin=points_in_basin,
     )
 
 

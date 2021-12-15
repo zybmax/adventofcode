@@ -8,9 +8,7 @@ import numpy as np
 
 
 def main():
-    energy_level_map = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    energy_level_map = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     step = 0
     while True:
@@ -24,9 +22,7 @@ def _read_data(data_file_path: str) -> np.ndarray:
     with open(data_file_path, "r") as file:
         lines = file.readlines()
 
-    return np.array(
-        [[int(x) for x in line.lstrip().rstrip()] for line in lines], dtype=np.uint8
-    )
+    return np.array([[int(x) for x in line.lstrip().rstrip()] for line in lines], dtype=np.uint8)
 
 
 def _simulate_one_step(energy_level_map: np.ndarray) -> int:
@@ -61,9 +57,7 @@ def _find_saturated_indices(energy_level_map: np.ndarray) -> List[Tuple[int, int
     return [(i.item(), j.item()) for i, j in zip(*np.where(energy_level_map > 9))]
 
 
-def _find_neighbors(
-    point: Tuple[int, int], shape: Tuple[int, int]
-) -> List[Tuple[int, int]]:
+def _find_neighbors(point: Tuple[int, int], shape: Tuple[int, int]) -> List[Tuple[int, int]]:
     return [
         (point[0] + i_offset, point[1] + j_offset)
         for i_offset, j_offset in itertools.product(range(-1, 2), range(-1, 2))

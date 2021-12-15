@@ -9,14 +9,9 @@ import numpy as np
 
 
 def main():
-    binary_strings = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    binary_strings = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
-    print(
-        _compute_rating(binary_strings, most_common=True)
-        * _compute_rating(binary_strings, most_common=False)
-    )
+    print(_compute_rating(binary_strings, most_common=True) * _compute_rating(binary_strings, most_common=False))
 
 
 def _read_data(data_file_path: str) -> List[str]:
@@ -32,11 +27,7 @@ def _compute_rating(binary_strings: List[str], most_common: bool = True) -> int:
     num_left = len(binary_strings)
 
     for position in range(len(binary_strings[0])):
-        chosen_num = _find_most_common(
-            binary_nums=[
-                int(x[position]) for i, x in enumerate(binary_strings) if keep[i]
-            ]
-        )
+        chosen_num = _find_most_common(binary_nums=[int(x[position]) for i, x in enumerate(binary_strings) if keep[i]])
         if not most_common:
             chosen_num = int(not chosen_num)
 

@@ -15,9 +15,7 @@ _InsertionRule = Dict[Tuple[str, str], str]
 
 
 def main():
-    template, insertion_rule = _read_data(
-        data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")
-    )
+    template, insertion_rule = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     # Find all valid chars.
     all_chars = set()
@@ -25,9 +23,7 @@ def main():
         all_chars.add(pair[0])
         all_chars.add(pair[1])
     if len(insertion_rule) != len(all_chars) ** 2:
-        raise RuntimeError(
-            "The number of insertion rules must be equal to the number of unique chars squared!"
-        )
+        raise RuntimeError("The number of insertion rules must be equal to the number of unique chars squared!")
 
     # Find the counts of all char pairs in the original template.
     all_char_pair_counts = Counter()
@@ -35,9 +31,7 @@ def main():
         all_char_pair_counts[(template[i], template[i + 1])] += 1
 
     for i in range(40):
-        all_char_pair_counts = _do_one_step_insertion(
-            all_char_pair_counts, insertion_rule
-        )
+        all_char_pair_counts = _do_one_step_insertion(all_char_pair_counts, insertion_rule)
 
     char_count = Counter()
     for (left_char, right_char), count in all_char_pair_counts.items():
@@ -67,9 +61,7 @@ def _read_data(data_file_path: str) -> Tuple[str, _InsertionRule]:
     return lines[0].lstrip().rstrip(), insertion_rules
 
 
-def _do_one_step_insertion(
-    all_char_pair_counts: _CounterType, insertion_rule: _InsertionRule
-) -> _CounterType:
+def _do_one_step_insertion(all_char_pair_counts: _CounterType, insertion_rule: _InsertionRule) -> _CounterType:
     """Returns a new counter with keys being the char pairs and values being the counts after one step insertion."""
     ret = Counter()
 

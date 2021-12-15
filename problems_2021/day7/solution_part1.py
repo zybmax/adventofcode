@@ -7,9 +7,7 @@ import numpy as np
 
 
 def main():
-    positions = np.array(
-        _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
-    )
+    positions = np.array(_read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt")))
 
     # Median minimizes the l1 distance from all points.
     # Ref: https://math.stackexchange.com/a/113336

@@ -1,15 +1,12 @@
 """https://adventofcode.com/2021/day/15.
 
-Use depth-first search to explore all possible paths. After a path if found, we can terminate other paths if the total
-risk is equal to or higher than the risk of the existing path.  There is no use to visit points that have already been
-visited (which will lead to higher risks), so we should keep the coordinates that have already been visited in a list
-or set.
+Use Dijkstra's algorithm for finding the shortest path with weights.
 """
-import os.path
-from typing import List
-from typing import Tuple, Set
 import itertools
+import os.path
+from typing import Tuple
 
+import networkx as nx
 import numpy as np
 
 
@@ -19,7 +16,9 @@ _Point = Tuple[int, int]
 def main():
     risk_level_map = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
-    print(_PathFinder(risk_level_map=risk_level_map).lowest_total_risk)
+    graph = _graph_from_2d_array(risk_level_map)
+    path = nx.dijkstra_path(graph, source=(0, 0), target=(risk_level_map.shape[0] - 1, risk_level_map.shape[1] - 1))
+    print(sum(risk_level_map[i, j] for i, j in path[1:]))
 
 
 def _read_data(data_file_path: str) -> np.ndarray:
@@ -30,50 +29,34 @@ def _read_data(data_file_path: str) -> np.ndarray:
     return np.array([[int(x) for x in line.lstrip().rstrip()] for line in lines], dtype=np.uint8)
 
 
-class _PathFinder:
-    def __init__(self, risk_level_map: np.ndarray) -> None:
-        self._risk_level_map: np.ndarray = risk_level_map
-        self._best_total_risk = float("inf")
-        self._find_lowest_total_risk(current_position=(0, 0), current_total_risk=0, forbidden_points={(0, 0)})
+def _graph_from_2d_array(array: np.ndarray) -> nx.DiGraph:
+    """Returns a directed graph from a 2D array.
 
-    @property
-    def lowest_total_risk(self) -> int:
-        return self._best_total_risk
+    Each pixel is a node, and is connected to its 4 neighbors (diagonal neighbors are not connected) with bidirectional
+    edges. The weight of each edge is equal to the value of the array element that it ends in.
+    """
+    graph = nx.DiGraph()
+    height, width = array.shape
 
-    def _find_lowest_total_risk(
-        self, current_position: _Point, current_total_risk: int, forbidden_points: Set[_Point],
-    ) -> None:
-        """Updates the `_best_total_risk` attribute.
+    # Add all pixels as nodes.
+    graph.add_nodes_from((i, j) for i, j in itertools.product(range(height), range(width)))
 
-        `current_total_risk` includes the risk of the current position.
-        """
-        if current_position == (self._risk_level_map.shape[0] - 1, self._risk_level_map.shape[1] - 1,):
-            print(f"Found new risk: {current_total_risk}")
-            self._best_total_risk = current_total_risk
+    # Add edges. Start from upper-left and only add the edges to and from the nodes to the right and below the current
+    # node.
+    for i, j, is_forward, axis in itertools.product(range(height), range(width), [True, False], [0, 1]):
+        start_node = (i, j)
+        end_node = (i + 1, j) if axis == 0 else (i, j + 1)
 
-        for neighbor in self._find_neighbors(current_position):
-            if neighbor in forbidden_points:
-                continue
+        if end_node[0] > height - 1 or end_node[1] > width - 1:
+            # Out of bottom or right bounds.
+            continue
 
-            new_total_risk = current_total_risk + self._risk_level_map[neighbor[0], neighbor[1]]
+        if not is_forward:
+            start_node, end_node = end_node, start_node
 
-            if new_total_risk > self._best_total_risk:
-                continue
+        graph.add_edge(start_node, end_node, weight=array[end_node[0], end_node[1]])
 
-            self._find_lowest_total_risk(
-                current_position=neighbor,
-                current_total_risk=new_total_risk,
-                forbidden_points=forbidden_points | {neighbor},
-            )
-
-    def _find_neighbors(self, position: _Point) -> List[_Point]:
-        return [
-            (position[0] + i_offset, position[1] + j_offset)
-            for i_offset, j_offset in itertools.product(range(-1, 2), range(-1, 2))
-            if 0 <= position[0] + i_offset < self._risk_level_map.shape[0]
-            and 0 <= position[1] + j_offset < self._risk_level_map.shape[1]
-            and (i_offset, j_offset) != (0, 0)
-        ]
+    return graph
 
 
 if __name__ == "__main__":

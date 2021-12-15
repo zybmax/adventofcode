@@ -235,7 +235,7 @@ python-versions = ">=3.6"
 version = "1.2.2"
 
 [metadata]
-content-hash = "8841cfdb45d3313a7e161eeea3549a94f717ec07485e6e63ad4ed44432f6c661"
+content-hash = "8b300e897a6e00801bfa5fc0866c9783136737e001209f4222eb9b225b910970"
 lock-version = "1.1"
 python-versions = ">=3.7,<3.11"
 

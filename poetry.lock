@@ -1,5 +1,20 @@
 [[package]]
 category = "main"
+description = "Python Library for Studying Binary Trees"
+name = "binarytree"
+optional = false
+python-versions = ">=3.6"
+version = "6.3.0"
+
+[package.dependencies]
+graphviz = "*"
+setuptools-scm = {version = ">=3.4", extras = ["toml"]}
+
+[package.extras]
+dev = ["black", "flake8 (>=3.8.4)", "isort (>=5.0.0)", "mypy (>=0.790)", "pre-commit (>=2.9.3)", "pytest (>=6.0.0)", "pytest-cov (>=2.0.0)", "sphinx", "sphinx-rtd-theme"]
+
+[[package]]
+category = "main"
 description = "Composable style cycles"
 name = "cycler"
 optional = false
@@ -26,6 +41,19 @@ type1 = ["xattr"]
 ufo = ["fs (>=2.2.0,<3)"]
 unicode = ["unicodedata2 (>=13.0.0)"]
 woff = ["zopfli (>=0.1.4)", "brotlicffi (>=0.8.0)", "brotli (>=1.0.1)"]
+
+[[package]]
+category = "main"
+description = "Simple Python interface for Graphviz"
+name = "graphviz"
+optional = false
+python-versions = ">=3.6"
+version = "0.19.1"
+
+[package.extras]
+dev = ["tox (>=3)", "flake8", "pep8-naming", "wheel", "twine"]
+docs = ["sphinx (>=1.8)", "sphinx-autodoc-typehints", "sphinx-rtd-theme"]
+test = ["pytest (>=6)", "pytest-mock (>=3)", "mock (>=4)", "pytest-cov", "coverage"]
 
 [[package]]
 category = "main"
@@ -235,11 +263,15 @@ python-versions = ">=3.6"
 version = "1.2.2"
 
 [metadata]
-content-hash = "8b300e897a6e00801bfa5fc0866c9783136737e001209f4222eb9b225b910970"
+content-hash = "4e287c2db159fb1f0783379b2495161d7e5252c4af268ef2c6be4ee8cfb051b6"
 lock-version = "1.1"
 python-versions = ">=3.7,<3.11"
 
 [metadata.files]
+binarytree = [
+    {file = "binarytree-6.3.0-py3-none-any.whl", hash = "sha256:ab715f3d14e09064af60228b9f9021189a28ac15b45a063ab468ca79ef38e109"},
+    {file = "binarytree-6.3.0.tar.gz", hash = "sha256:e6c10746630b097dfd891d2e1fae7514f086257fd05d1b7b939caf854501497b"},
+]
 cycler = [
     {file = "cycler-0.11.0-py3-none-any.whl", hash = "sha256:3a27e95f763a428a739d2add979fa7494c912a32c17c4c38c4d5f082cad165a3"},
     {file = "cycler-0.11.0.tar.gz", hash = "sha256:9c87405839a19696e837b3b818fed3f5f69f16f1eec1a1ad77e043dcea9c772f"},
@@ -247,6 +279,10 @@ cycler = [
 fonttools = [
     {file = "fonttools-4.28.3-py3-none-any.whl", hash = "sha256:ca6ecc67e5a5620d31754f92147f22f48fd5461fd3fafe6afe031aa9ee079b0f"},
     {file = "fonttools-4.28.3.zip", hash = "sha256:edb48922873d3fda489ab400bd40888ac239ae8070b53f494b839bcdff0d01f6"},
+]
+graphviz = [
+    {file = "graphviz-0.19.1-py3-none-any.whl", hash = "sha256:f34088c08be2ec16279dfa9c3b4ff3d1453c5c67597a33e2819b000e18d4c546"},
+    {file = "graphviz-0.19.1.zip", hash = "sha256:09ed0cde452d015fe77c4845a210eb642f28d245f5bc250d4b97808cb8f49078"},
 ]
 imageio = [
     {file = "imageio-2.13.3-py3-none-any.whl", hash = "sha256:126f10aa970f54b657bcc52f6481a2e55137fcc0f978bb6e0451bd1e22c54f17"},

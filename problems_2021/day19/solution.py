@@ -5,14 +5,16 @@ graph to record this by adding edges (with the transformation matrix, and invers
 After the graph is built, start from scanner 0, traverse all the nodes, and calculate the global transformation matrix
 of each scanner w.r.t. a common scanner (scanner 0), so we can finally compute the final set of points.
 """
+import functools
 import itertools
 import os.path
-from typing import List, Set
+from typing import List
 from typing import Optional
+from typing import Set
 from typing import Tuple
+
 import networkx as nx
 import numpy as np
-import functools
 
 
 # 3D point in x, y, z.

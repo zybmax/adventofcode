@@ -5,7 +5,7 @@ from typing import Tuple, Dict
 from collections import Counter
 
 
-# A player status is equal to the current position and the current score.
+# A player status is defined as the current position and the current score.
 _PlayerStatus = Tuple[int, int]
 _GameStatus = Tuple[_PlayerStatus, _PlayerStatus]
 
@@ -18,12 +18,12 @@ def main():
 
 @functools.lru_cache(maxsize=None)
 def _nums_win(game_status: _GameStatus) -> Tuple[int, int]:
-    """Returns the number of win situation for players 0 and 1.
+    """Returns the numbers of win situations for players 0 and 1.
 
     The next player to go is always the 0th player.
 
     If the current score plus some of the possible scores exceed the winning score, add those to the ret, then flip
-    the players and calculate the num wins in the rest of the cases.
+    the players and calculate the nums of wins in the rest of the cases.
     """
     num_win_0 = num_win_1 = 0
     for dice_sum, frequency in _three_roll_sum_frequencies().items():

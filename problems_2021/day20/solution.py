@@ -38,7 +38,9 @@ def _enhance_image(
     input_image: np.ndarray, pad_value: int, algorithm: np.ndarray, num_times: int
 ) -> Tuple[np.ndarray, int]:
     """Returns the enhanced image and the infinite pad value around it."""
-    enhanced = np.pad(input_image, pad_width=((num_times, num_times), (num_times, num_times)))
+    enhanced = np.pad(
+        input_image, pad_width=((num_times, num_times), (num_times, num_times)), constant_values=pad_value
+    )
 
     for enhancement_round in range(num_times):
         more_enhanced = np.zeros_like(enhanced)

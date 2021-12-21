@@ -1,4 +1,8 @@
-"""https://adventofcode.com/2021/day/21."""
+"""https://adventofcode.com/2021/day/21.
+
+Even more efficient solution: https://github.com/vincentbillaut/AoC2021/blob/master/day21.ipynb
+The two players can be decoupled to reduce the complexity.
+"""
 import itertools
 import functools
 from typing import Tuple, Dict

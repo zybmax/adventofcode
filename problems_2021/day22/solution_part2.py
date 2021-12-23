@@ -66,9 +66,9 @@ class _Cuboid:
     def __sub__(self, other: "_Cuboid") -> "_CuboidCollection":
         """Returns a cuboid collection resulting from subtracting two cuboids.
 
-        Subtraction is defined as setting the pixels in `other` that are also in `self` to zero. This can possibly
-        cause splitting of the cuboid into multiple cuboids. For example, consider removing a cuboid at one corner of a
-        larger cuboid, which would result in 7 smaller cuboids.
+        Subtraction is defined as removing the overlapping cuboid between `self` and `other` from `self`. This can
+        possibly cause splitting of the cuboid into multiple cuboids. For example, consider removing a cuboid at one
+        corner of a larger cuboid, which would result in 7 smaller cuboids.
         """
         # If the two cuboids do not overlap, the subtraction is simply the first cuboid.
         if not _Cuboid._intervals_3d_have_overlap(self.interval_3d, other.interval_3d):
@@ -92,6 +92,7 @@ class _Cuboid:
         Assumes that the two intervals have overlap.
 
         For example, substracting (1, 5) and (2, 4) will result in [((1, 1), True), ((2, 4), False), ((5, 5), True)].
+        Depending on the status of partial or full overlap, the resulting number of intervals can be 1, 2 or 3.
         """
         # Use if/else instead of if ... return (without else) for stylistic clarity.
         if second_interval[0] <= first_interval[0]:

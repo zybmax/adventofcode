@@ -5,7 +5,7 @@ from typing import Set
 from typing import Tuple
 
 
-# An amphipod is represented by its type (0 for A, 1 for B, ...) and the individual ID within its type (0 or 1).
+# An amphipod is represented by its type (0 for A, 1 for B, ...) and the individual ID within its type (0, 1, 2, ...).
 _Amphipod = Tuple[int, int]
 # Position is defined by the (row_idx, col_idx) in the map.  Many positions are forbidden.
 _Position = Tuple[int, int]

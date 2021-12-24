@@ -130,7 +130,7 @@ def _num_correct_typed_amphipods_at_bottom_of_room(game_status: _GameStatus, amp
         # The current depth is occupied by the correct-typed amphibian. Add 1.
         num += 1
 
-    # All four positions are occupied.
+    # All positions are occupied.
     return num
 
 

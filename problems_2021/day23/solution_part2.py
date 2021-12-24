@@ -17,9 +17,10 @@ _Move = Tuple[_Amphipod, _Position, _Position]
 
 _HOME_COLUMNS_BY_AMPHIPOD_TYPE = {0: 2, 1: 4, 2: 6, 3: 8}
 _HALLWAY_VALID_X_POSITIONS = {0, 1, 3, 5, 7, 9, 10}
+_ROOM_DEPTH = 4
 
 
-_EXAMPLE_START_STATUS = (
+_EXAMPLE_START_STATUS: _GameStatus = (
     ((0, 0), (4, 2), True),
     ((0, 1), (3, 6), False),
     ((0, 2), (2, 8), False),
@@ -38,7 +39,7 @@ _EXAMPLE_START_STATUS = (
     ((3, 3), (1, 8), False),
 )
 
-_TEST_START_STATUS = (
+_TEST_START_STATUS: _GameStatus = (
     ((0, 0), (4, 6), False),
     ((0, 1), (4, 8), False),
     ((0, 2), (3, 6), False),
@@ -57,16 +58,14 @@ _TEST_START_STATUS = (
     ((3, 3), (3, 2), False),
 )
 
-_ROOM_DEPTH = 4
-
 
 def main():
-    print(lowest_cost(game_status=_TEST_START_STATUS))
+    print(lowest_cost_and_moves(game_status=_TEST_START_STATUS))
 
 
 @functools.lru_cache(maxsize=None)
-def lowest_cost(game_status: _GameStatus) -> Tuple[int, List[Tuple[_Amphipod, _Position, _Position]]]:
-    """Returns the lowest cost if the game is to start from the current game status and the moves."""
+def lowest_cost_and_moves(game_status: _GameStatus) -> Tuple[int, List[_Move]]:
+    """Returns the lowest cost if the game is to start from the current game status and the optimal moves."""
     if all(at_home for _, _, at_home in game_status):
         return 0, []
 
@@ -83,48 +82,37 @@ def lowest_cost(game_status: _GameStatus) -> Tuple[int, List[Tuple[_Amphipod, _P
 
         if position[0] == 0:
             # If this amphipod's current position is the top row, the next valid move must be to move back to the
-            # deepest available space in its home. However, if the deeper space in the home is occupied by a wrong-
-            # type amphipod, then the move is not valid.
-            home_column = _HOME_COLUMNS_BY_AMPHIPOD_TYPE[amphipod[0]]
-            new_position = (
-                _ROOM_DEPTH - _num_correct_typed_amphipods_at_bottom_of_room(game_status, amphipod_type=amphipod[0]),
-                home_column,
-            )
+            # deepest space in its home room that is not occupied by correct-typed amphipods.
+            new_positions = {
+                (
+                    _ROOM_DEPTH
+                    - _num_correct_typed_amphipods_at_bottom_of_room(game_status, amphipod_type=amphipod[0]),
+                    _HOME_COLUMNS_BY_AMPHIPOD_TYPE[amphipod[0]],
+                )
+            }
+        else:
+            new_positions = available_hallway_positions
+
+        for new_position in new_positions:
             if _move_is_blocked(
                 all_amphipod_positions=all_amphipod_positions, start_position=position, end_position=new_position
             ):
                 continue
 
+            # Construct the new game status with the same amphipod order so we can take advantage of function caching.
             new_game_status = ()
             for amphipod_, position_, at_home_ in game_status:
                 if amphipod_ == amphipod:
-                    new_game_status = new_game_status + ((amphipod_, new_position, True),)
+                    # If the current position is in the hallway, the next position will be at home.
+                    new_game_status = new_game_status + (
+                        (amphipod_, new_position, True if position[0] == 0 else False),
+                    )
                 else:
+                    # Keep the other amphipod statuses as is.
                     new_game_status = new_game_status + ((amphipod_, position_, at_home_),)
 
             cost_of_move = _cost_of_move(amphipod_type=amphipod[0], start_position=position, end_position=new_position)
-            remaining_cost, remaining_moves = lowest_cost(new_game_status)
-            if cost_of_move + remaining_cost < min_cost:
-                min_cost = cost_of_move + remaining_cost
-                moves = [(amphipod, position, new_position)] + remaining_moves
-            continue
-
-        # The current amphipod is at its start position and the next move must be to move out to the hallway.
-        for new_position in available_hallway_positions:
-            if _move_is_blocked(
-                all_amphipod_positions=all_amphipod_positions, start_position=position, end_position=new_position
-            ):
-                continue
-
-            new_game_status = ()
-            for amphipod_, position_, at_home_ in game_status:
-                if amphipod_ == amphipod:
-                    new_game_status = new_game_status + ((amphipod_, new_position, False),)
-                else:
-                    new_game_status = new_game_status + ((amphipod_, position_, at_home_),)
-
-            cost_of_move = _cost_of_move(amphipod_type=amphipod[0], start_position=position, end_position=new_position)
-            remaining_cost, remaining_moves = lowest_cost(new_game_status)
+            remaining_cost, remaining_moves = lowest_cost_and_moves(new_game_status)
             if cost_of_move + remaining_cost < min_cost:
                 min_cost = cost_of_move + remaining_cost
                 moves = [(amphipod, position, new_position)] + remaining_moves
@@ -135,7 +123,7 @@ def lowest_cost(game_status: _GameStatus) -> Tuple[int, List[Tuple[_Amphipod, _P
 def _num_correct_typed_amphipods_at_bottom_of_room(game_status: _GameStatus, amphipod_type: int) -> int:
     same_type_positions = set(position for (type_, _), position, _ in game_status if type_ == amphipod_type)
     num = 0
-    for depth in range(4, 0, -1):
+    for depth in range(_ROOM_DEPTH, 0, -1):
         if (depth, _HOME_COLUMNS_BY_AMPHIPOD_TYPE[amphipod_type]) not in same_type_positions:
             return num
 

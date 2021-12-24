@@ -5,14 +5,13 @@ from typing import Set
 from typing import Tuple
 
 
-# An amphipod is represented by its type (0 for A, 1 for B, ...) and the individual ID within its type (0, 1, 2, ...).
-_Amphipod = Tuple[int, int]
 # Position is defined by the (row_idx, col_idx) in the map.  Many positions are forbidden.
 _Position = Tuple[int, int]
-# The game status is the statuses of all amphipods. Each status is its position and whether it has reached its home.
-_GameStatus = Tuple[Tuple[_Amphipod, _Position, bool], ...]
-# A move is a (amphipod, start_position, end_position) tuple.
-_Move = Tuple[_Amphipod, _Position, _Position]
+# The game status is the statuses of all amphipods. Each status is its amphipod type, position and whether it has
+# reached its home.
+_GameStatus = Tuple[Tuple[int, _Position, bool], ...]
+# A move is a (amphipod_type, start_position, end_position) tuple.
+_Move = Tuple[int, _Position, _Position]
 
 
 _HOME_COLUMNS_BY_AMPHIPOD_TYPE = {0: 2, 1: 4, 2: 6, 3: 8}
@@ -21,46 +20,47 @@ _ROOM_DEPTH = 4
 
 
 _EXAMPLE_START_STATUS: _GameStatus = (
-    ((0, 0), (4, 2), True),
-    ((0, 1), (3, 6), False),
-    ((0, 2), (2, 8), False),
-    ((0, 3), (4, 8), False),
-    ((1, 0), (1, 2), False),
-    ((1, 1), (3, 4), False),
-    ((1, 2), (1, 6), False),
-    ((1, 3), (2, 6), False),
-    ((2, 0), (1, 4), False),
-    ((2, 1), (2, 4), False),
-    ((2, 2), (4, 6), True),
-    ((2, 3), (3, 8), False),
-    ((3, 0), (2, 2), False),
-    ((3, 1), (3, 2), False),
-    ((3, 2), (4, 4), False),
-    ((3, 3), (1, 8), False),
+    (0, (4, 2), True),
+    (0, (3, 6), False),
+    (0, (2, 8), False),
+    (0, (4, 8), False),
+    (1, (1, 2), False),
+    (1, (3, 4), False),
+    (1, (1, 6), False),
+    (1, (2, 6), False),
+    (2, (1, 4), False),
+    (2, (2, 4), False),
+    (2, (4, 6), True),
+    (2, (3, 8), False),
+    (3, (2, 2), False),
+    (3, (3, 2), False),
+    (3, (4, 4), False),
+    (3, (1, 8), False),
 )
 
 _TEST_START_STATUS: _GameStatus = (
-    ((0, 0), (4, 6), False),
-    ((0, 1), (4, 8), False),
-    ((0, 2), (3, 6), False),
-    ((0, 3), (2, 8), False),
-    ((1, 0), (1, 2), False),
-    ((1, 1), (1, 8), False),
-    ((1, 2), (3, 4), False),
-    ((1, 3), (2, 6), False),
-    ((2, 0), (1, 4), False),
-    ((2, 1), (1, 6), False),
-    ((2, 2), (2, 4), False),
-    ((2, 3), (3, 8), False),
-    ((3, 0), (4, 2), False),
-    ((3, 1), (4, 4), False),
-    ((3, 2), (2, 2), False),
-    ((3, 3), (3, 2), False),
+    (0, (4, 6), False),
+    (0, (4, 8), False),
+    (0, (3, 6), False),
+    (0, (2, 8), False),
+    (1, (1, 2), False),
+    (1, (1, 8), False),
+    (1, (3, 4), False),
+    (1, (2, 6), False),
+    (2, (1, 4), False),
+    (2, (1, 6), False),
+    (2, (2, 4), False),
+    (2, (3, 8), False),
+    (3, (4, 2), False),
+    (3, (4, 4), False),
+    (3, (2, 2), False),
+    (3, (3, 2), False),
 )
 
 
 def main():
-    print(lowest_cost_and_moves(game_status=_TEST_START_STATUS))
+    # Sort the game status so that an identical game status can always be fetched from function cache.
+    print(lowest_cost_and_moves(game_status=tuple(sorted(_TEST_START_STATUS))))
 
 
 @functools.lru_cache(maxsize=None)
@@ -75,7 +75,7 @@ def lowest_cost_and_moves(game_status: _GameStatus) -> Tuple[int, List[_Move]]:
     min_cost = float("inf")
     moves = None
 
-    for amphipod, position, at_home in game_status:
+    for amphipod_type, position, at_home in game_status:
         if at_home:
             # That amphipod has already reached home and will not move again.
             continue
@@ -86,8 +86,8 @@ def lowest_cost_and_moves(game_status: _GameStatus) -> Tuple[int, List[_Move]]:
             new_positions = {
                 (
                     _ROOM_DEPTH
-                    - _num_correct_typed_amphipods_at_bottom_of_room(game_status, amphipod_type=amphipod[0]),
-                    _HOME_COLUMNS_BY_AMPHIPOD_TYPE[amphipod[0]],
+                    - _num_correct_typed_amphipods_at_bottom_of_room(game_status, amphipod_type=amphipod_type),
+                    _HOME_COLUMNS_BY_AMPHIPOD_TYPE[amphipod_type],
                 )
             }
         else:
@@ -99,29 +99,31 @@ def lowest_cost_and_moves(game_status: _GameStatus) -> Tuple[int, List[_Move]]:
             ):
                 continue
 
-            # Construct the new game status with the same amphipod order so we can take advantage of function caching.
             new_game_status = ()
-            for amphipod_, position_, at_home_ in game_status:
-                if amphipod_ == amphipod:
+            for amphipod_status in game_status:
+                if amphipod_status == (amphipod_type, position, at_home):
                     # If the current position is in the hallway, the next position will be at home.
                     new_game_status = new_game_status + (
-                        (amphipod_, new_position, True if position[0] == 0 else False),
+                        (amphipod_status[0], new_position, True if position[0] == 0 else False),
                     )
                 else:
                     # Keep the other amphipod statuses as is.
-                    new_game_status = new_game_status + ((amphipod_, position_, at_home_),)
+                    new_game_status = new_game_status + (amphipod_status,)
 
-            cost_of_move = _cost_of_move(amphipod_type=amphipod[0], start_position=position, end_position=new_position)
-            remaining_cost, remaining_moves = lowest_cost_and_moves(new_game_status)
+            cost_of_move = _cost_of_move(
+                amphipod_type=amphipod_type, start_position=position, end_position=new_position
+            )
+            # Sort the game status so that an identical game status can always be fetched from function cache.
+            remaining_cost, remaining_moves = lowest_cost_and_moves(tuple(sorted(new_game_status)))
             if cost_of_move + remaining_cost < min_cost:
                 min_cost = cost_of_move + remaining_cost
-                moves = [(amphipod, position, new_position)] + remaining_moves
+                moves = [(amphipod_type, position, new_position)] + remaining_moves
 
     return min_cost, moves
 
 
 def _num_correct_typed_amphipods_at_bottom_of_room(game_status: _GameStatus, amphipod_type: int) -> int:
-    same_type_positions = set(position for (type_, _), position, _ in game_status if type_ == amphipod_type)
+    same_type_positions = set(position for type_, position, _ in game_status if type_ == amphipod_type)
     num = 0
     for depth in range(_ROOM_DEPTH, 0, -1):
         if (depth, _HOME_COLUMNS_BY_AMPHIPOD_TYPE[amphipod_type]) not in same_type_positions:

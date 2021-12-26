@@ -6,7 +6,7 @@ reset to 0. So only z's value depends on the status from the last digit.
 A program is defined as the (program_type, coefficient `alpha`, coefficient `beta`).
 If program_type == 0, the program always does z_new = 26 * z + w_i + alpha_i.
 If program_type == 1, the program does:
-  if z % 26 - alpha_i == w_i:
+  if z % 26 + alpha_i == w_i:
       z_new = z // 26
   else:
       z_new = 26 * (z // 26) + w_i + beta_i

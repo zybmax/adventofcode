@@ -26,8 +26,7 @@ def main():
 
 
 def _read_data(data_file_path: str) -> Tuple[str, _InsertionRule]:
-    """Returns the template and the pair insertion rules.
-    """
+    """Returns the template and the pair insertion rules."""
     with open(data_file_path, "r") as file:
         lines = file.readlines()
 
@@ -48,7 +47,7 @@ def _do_one_step_insertion(template_as_list: List[str], insertion_rule: _Inserti
     for i in range(num_chars - 1):
         try:
             template_as_list.insert(
-                i + offset + 1, insertion_rule[(template_as_list[i + offset], template_as_list[i + offset + 1],)],
+                i + offset + 1, insertion_rule[(template_as_list[i + offset], template_as_list[i + offset + 1])]
             )
         except KeyError:
             continue

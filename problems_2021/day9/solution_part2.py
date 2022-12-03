@@ -23,10 +23,7 @@ def main():
     point_collections = [[] for _ in range(len(peak_coordinates))]
     for peak_coordinate, point_collection in zip(peak_coordinates, point_collections):
         _flood_fill(
-            point=tuple(peak_coordinate),
-            height_map=height_map,
-            basin_mask=basin_mask,
-            points_in_basin=point_collection,
+            point=tuple(peak_coordinate), height_map=height_map, basin_mask=basin_mask, points_in_basin=point_collection
         )
 
     # Remove duplicates.
@@ -53,7 +50,7 @@ def _read_data(data_file_path: str) -> np.ndarray:
 
 
 def _flood_fill(
-    point: Tuple[int, int], height_map: np.ndarray, basin_mask: np.ndarray, points_in_basin: List[Tuple[int, int]],
+    point: Tuple[int, int], height_map: np.ndarray, basin_mask: np.ndarray, points_in_basin: List[Tuple[int, int]]
 ) -> None:
     """Recursively updates `basin_mask` and puts valid basin points to `points_in_basin`."""
     # Out of bounds.
@@ -71,18 +68,10 @@ def _flood_fill(
     basin_mask[point[0], point[1]] = True
     points_in_basin.append(point)
 
-    _flood_fill(
-        (point[0] - 1, point[1]), height_map=height_map, basin_mask=basin_mask, points_in_basin=points_in_basin,
-    )
-    _flood_fill(
-        (point[0] + 1, point[1]), height_map=height_map, basin_mask=basin_mask, points_in_basin=points_in_basin,
-    )
-    _flood_fill(
-        (point[0], point[1] - 1), height_map=height_map, basin_mask=basin_mask, points_in_basin=points_in_basin,
-    )
-    _flood_fill(
-        (point[0], point[1] + 1), height_map=height_map, basin_mask=basin_mask, points_in_basin=points_in_basin,
-    )
+    _flood_fill((point[0] - 1, point[1]), height_map=height_map, basin_mask=basin_mask, points_in_basin=points_in_basin)
+    _flood_fill((point[0] + 1, point[1]), height_map=height_map, basin_mask=basin_mask, points_in_basin=points_in_basin)
+    _flood_fill((point[0], point[1] - 1), height_map=height_map, basin_mask=basin_mask, points_in_basin=points_in_basin)
+    _flood_fill((point[0], point[1] + 1), height_map=height_map, basin_mask=basin_mask, points_in_basin=points_in_basin)
 
 
 if __name__ == "__main__":

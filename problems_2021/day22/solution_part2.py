@@ -77,7 +77,7 @@ class _Cuboid:
         # If they do have overlap, we should break up each interval into multiple, and mark their "keep" status. For
         # the sub-cuboid where the "keep" status for all the dimensions are False, that sub-cuboid should be removed.
         cuboid_list = []
-        for (interval_y, to_keep_y), (interval_x, to_keep_x), (interval_z, to_keep_z) in itertools.product(
+        for ((interval_y, to_keep_y), (interval_x, to_keep_x), (interval_z, to_keep_z)) in itertools.product(
             *[_Cuboid._interval_subtract(self.interval_3d[i], other.interval_3d[i]) for i in range(3)]
         ):
             # As long as one dimension's "to keep" is True, we should keep this cuboid.
@@ -112,10 +112,7 @@ class _Cuboid:
                 ((second_interval[1] + 1, first_interval[1]), True),
             ]
 
-        return [
-            ((first_interval[0], second_interval[0] - 1), True),
-            ((second_interval[0], first_interval[1]), False),
-        ]
+        return [((first_interval[0], second_interval[0] - 1), True), ((second_interval[0], first_interval[1]), False)]
 
     @property
     def volume(self) -> int:

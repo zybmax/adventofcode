@@ -70,7 +70,7 @@ def _decode(codes: List[_Code]) -> Dict[int, int]:
     return true_code_nums_by_apparent_code_num
 
 
-def _get_unique_occurrence_tuples_and_num_total_occurrences(codes: List[_Code],) -> List[Tuple[Tuple[int, ...], int]]:
+def _get_unique_occurrence_tuples_and_num_total_occurrences(codes: List[_Code]) -> List[Tuple[Tuple[int, ...], int]]:
     # The return is used as a signature (like a feature vector) to uniquely identify code nums.
     code_lengths = [len(x) for x in codes]
     one_four_seven_eight_codes = [codes[code_lengths.index(x)] for x in [2, 4, 3, 7]]

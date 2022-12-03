@@ -34,7 +34,7 @@ def main():
 
         # The mode is diagonal.
         for i, j in zip(
-            _range_from_start_end(start_point[0], end_point[0]), _range_from_start_end(start_point[1], end_point[1]),
+            _range_from_start_end(start_point[0], end_point[0]), _range_from_start_end(start_point[1], end_point[1])
         ):
             counts_by_coordinate[(i, j)] += 1
 

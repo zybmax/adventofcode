@@ -15,16 +15,14 @@ def main():
     point_set, fold_instructions = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
 
     # Part 1.
-    _fold(
-        point_set=point_set, axis=fold_instructions[0][0], position=fold_instructions[0][1],
-    )
+    _fold(point_set=point_set, axis=fold_instructions[0][0], position=fold_instructions[0][1])
     print("Part 1: ", len(point_set))
 
     # Part 2.
     for axis, position in fold_instructions[1:]:
         _fold(point_set=point_set, axis=axis, position=position)
 
-    image = np.zeros(shape=(max(y for y, x in point_set) + 1, max(x for y, x in point_set) + 1), dtype=bool,)
+    image = np.zeros(shape=(max(y for y, x in point_set) + 1, max(x for y, x in point_set) + 1), dtype=bool)
     for point in point_set:
         image[point[0], point[1]] = True
     plt.figure()

@@ -31,7 +31,7 @@ def _read_data(data_file_path: str) -> np.ndarray:
 def _expand_array_5x(array: np.ndarray) -> np.ndarray:
     ret = np.zeros(shape=(array.shape[0] * 5, array.shape[1] * 5), dtype=np.uint8)
     for i, j in itertools.product(range(5), range(5)):
-        ret[i * array.shape[0] : (i + 1) * array.shape[0], j * array.shape[1] : (j + 1) * array.shape[1]] = (
+        ret[i * array.shape[0] : (i + 1) * array.shape[0], j * array.shape[1] : (j + 1) * array.shape[1],] = (
             array + i + j
         )
     ret = np.mod(ret - 1, 9) + 1

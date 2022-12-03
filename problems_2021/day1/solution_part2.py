@@ -2,9 +2,8 @@
 import os
 import os.path
 from typing import List
-from scipy.signal import convolve
 
-from collections import Counter
+from scipy.signal import convolve
 
 
 def main():

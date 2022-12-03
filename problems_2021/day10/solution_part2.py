@@ -1,8 +1,7 @@
 """https://adventofcode.com/2021/day/10"""
 import os.path
-from typing import List
-
 from statistics import median
+from typing import List
 
 
 def _make_translation_table():

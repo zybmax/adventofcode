@@ -16,9 +16,8 @@ programs, all type-1 programs must trigger the first branch (that is, `z % 26 - 
 w_i is a number between 1 and 9, there is at most a single w_i that satisfies the condition (and possibly no w_i can
 satisfy the condition).
 """
-from typing import Optional, Tuple
 import functools
-
+from typing import Optional, Tuple
 
 MODEL_NUM_LENGTH = 14
 

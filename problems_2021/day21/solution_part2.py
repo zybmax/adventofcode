@@ -3,11 +3,10 @@
 Even more efficient solution: https://github.com/vincentbillaut/AoC2021/blob/master/day21.ipynb
 The two players can be decoupled to reduce the complexity.
 """
-import itertools
 import functools
-from typing import Tuple, Dict
+import itertools
 from collections import Counter
-
+from typing import Tuple, Dict
 
 # A player status is defined as the current position and the current score.
 _PlayerStatus = Tuple[int, int]

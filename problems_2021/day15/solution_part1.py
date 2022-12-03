@@ -9,7 +9,6 @@ from typing import Tuple
 import networkx as nx
 import numpy as np
 
-
 _Point = Tuple[int, int]
 
 

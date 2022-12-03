@@ -1,9 +1,8 @@
 """https://adventofcode.com/2021/day/25."""
-from typing import Optional, Tuple
-import functools
 import itertools
-import numpy as np
 import os
+
+import numpy as np
 
 
 def main():

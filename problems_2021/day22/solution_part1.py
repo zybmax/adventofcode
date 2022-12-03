@@ -5,7 +5,6 @@ from typing import Tuple
 
 import numpy as np
 
-
 # Interval with both sides inclusive.
 _Interval = Tuple[int, int]
 # A step is defined as (to_turn_on, (y_interval, x_interval, z_interval)).

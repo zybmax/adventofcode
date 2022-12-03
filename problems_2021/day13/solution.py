@@ -7,7 +7,6 @@ from typing import Tuple
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 _Point = Tuple[int, int]
 _PointSet = Set[_Point]
 

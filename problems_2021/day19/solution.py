@@ -16,7 +16,6 @@ from typing import Tuple
 import networkx as nx
 import numpy as np
 
-
 # 3D point in x, y, z.
 _3DPoint = Tuple[int, int, int]
 

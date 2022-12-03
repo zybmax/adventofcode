@@ -1,11 +1,8 @@
 """https://adventofcode.com/2021/day/4#part2"""
+import math
 import os
 import os.path
-from typing import List, Tuple
-import itertools
-import math
-
-import numpy as np
+from typing import List
 
 
 def main():

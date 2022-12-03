@@ -1,8 +1,8 @@
 """https://adventofcode.com/2021/day/4#part2"""
+import itertools
 import os
 import os.path
 from typing import List, Tuple
-import itertools
 
 import numpy as np
 

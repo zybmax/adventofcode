@@ -1,10 +1,7 @@
 """https://adventofcode.com/2021/day/1"""
 import os
 import os.path
-from typing import List, Tuple
-import re
-
-from collections import Counter
+from typing import List
 
 
 def main():

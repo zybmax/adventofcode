@@ -2,9 +2,6 @@
 import os
 import os.path
 from typing import List, Tuple
-import re
-
-from collections import Counter
 
 
 def main():

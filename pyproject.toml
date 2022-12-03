@@ -12,6 +12,7 @@ scikit-image = "^0.19.0"
 matplotlib = "^3.5.1"
 networkx = "^2.6.3"
 binarytree = "^6.3.0"
+black = "^22.10.0"
 
 [tool.poetry.dev-dependencies]
 

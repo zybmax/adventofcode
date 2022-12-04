@@ -1,4 +1,4 @@
-"""https://adventofcode.com/2022/day/1."""
+"""https://adventofcode.com/2022/day/2."""
 import os
 from typing import List, Tuple
 
@@ -14,10 +14,10 @@ WIN_LOSE_SCORE_MAPPING = {-1: 0, 0: 3, 1: 6}
 def main():
     inputs = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
     total_score = sum(_score(opponent_input=x, my_input=y) for x, y in inputs)
-    print(f"Problem 1: Total score is {total_score}.")
+    print(f"Part 1: Total score is {total_score}.")
 
     total_score = sum(_score_based_on_win_lose(opponent_input=x, win_lose=y - 2) for x, y in inputs)
-    print(f"Problem 2: Total score is {total_score}.")
+    print(f"Part 2: Total score is {total_score}.")
 
 
 def _read_data(data_file_path: str) -> List[Tuple[int, int]]:

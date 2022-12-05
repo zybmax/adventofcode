@@ -3,7 +3,6 @@ import copy
 import os
 from typing import List, Tuple
 import re
-from copy import deepcopy
 
 from adventofcode.util import read_lines_stripping_both_ends
 

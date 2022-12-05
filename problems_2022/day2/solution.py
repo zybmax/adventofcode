@@ -4,7 +4,6 @@ from typing import List, Tuple
 
 from adventofcode.util import read_lines_stripping_both_ends
 
-
 # The mapping between the action as a letter to the numeric label.
 ROCK_PAPER_SCISSOR_MAPPING = {"A": 1, "B": 2, "C": 3, "X": 1, "Y": 2, "Z": 3}
 # Win is denoted as 1; draw as 0; lose as -1.  The values are the corresponding scores.

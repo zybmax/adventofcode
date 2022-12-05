@@ -1,6 +1,6 @@
 """https://adventofcode.com/2022/day/3."""
 import os
-from typing import List, Tuple
+from typing import List
 
 from adventofcode.util import read_lines_stripping_both_ends
 from problems_2022.day3.solution_part1 import letter_to_priority

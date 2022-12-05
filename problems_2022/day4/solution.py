@@ -4,7 +4,6 @@ from typing import List, Tuple
 
 from adventofcode.util import read_lines_stripping_both_ends
 
-
 _Range = Tuple[int, int]
 
 

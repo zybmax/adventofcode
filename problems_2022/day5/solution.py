@@ -1,7 +1,9 @@
 """https://adventofcode.com/2022/day/5."""
+import copy
 import os
 from typing import List, Tuple
 import re
+from copy import deepcopy
 
 from adventofcode.util import read_lines_stripping_both_ends
 
@@ -23,37 +25,33 @@ def main():
     print("Stack status:", stack_status)
     print("Move instructions: ", move_instructions)
 
+    work_stack_status = copy.deepcopy(stack_status)
     for num_moves, source, destination in move_instructions:
         for _ in range(num_moves):
-            element = stack_status[source].pop()
-            stack_status[destination].append(element)
+            element = work_stack_status[source].pop()
+            work_stack_status[destination].append(element)
 
-    top_elements = "".join(stack[-1] for stack in stack_status)
-    print(f"Part 1: The top elements are {top_elements}.")
+    print(f"Part 1: The top elements are {_top_elements(stack_status=work_stack_status)}.")
 
-    # Need to re-read the input because it was modified in-place.
-    stack_status, move_instructions = _read_data(data_file_path=os.path.join(os.path.dirname(__file__), "data.txt"))
+    work_stack_status = copy.deepcopy(stack_status)
     for num_moves, source, destination in move_instructions:
-        elements = stack_status[source][-num_moves:]
-        stack_status[source] = stack_status[source][:-num_moves]
-        stack_status[destination].extend(elements)
+        elements = work_stack_status[source][-num_moves:]
+        work_stack_status[source] = work_stack_status[source][:-num_moves]
+        work_stack_status[destination].extend(elements)
 
-    top_elements = "".join(stack[-1] for stack in stack_status)
-    print(f"Part 2: The top elements are {top_elements}.")
+    print(f"Part 2: The top elements are {_top_elements(stack_status=work_stack_status)}.")
 
 
-def _read_data(data_file_path: str) -> Tuple[List[List[str]], List[Tuple[int, int, int]]]:
+def _read_data(data_file_path: str) -> Tuple[StackStatus, MoveInstructions]:
+    """Returns the stack status and move instructions."""
     lines = read_lines_stripping_both_ends(file_path=data_file_path)
 
+    # Break the inputs into two parts: the stack status and the move instructions.
     empty_line_index = lines.index("")
     stack_status_lines = lines[:empty_line_index]
     move_instructions_lines = lines[empty_line_index + 1 :]
 
-    move_instructions = []
-    for line in move_instructions_lines:
-        num_moves, source, destination = re.search(r"move ([0-9]+) from ([0-9]+) to ([0-9]+)", line).groups()
-        move_instructions.append((int(num_moves), int(source) - 1, int(destination) - 1))
-
+    # Parse the stack status.
     stack_status = []
     max_height = len(stack_status_lines) - 1
     for stack_index in range(NUM_STACKS):
@@ -74,7 +72,17 @@ def _read_data(data_file_path: str) -> Tuple[List[List[str]], List[Tuple[int, in
 
         stack_status.append(stack)
 
+    # Parse the move instructions.
+    move_instructions = []
+    for line in move_instructions_lines:
+        num_moves, source, destination = re.search(r"move ([0-9]+) from ([0-9]+) to ([0-9]+)", line).groups()
+        move_instructions.append((int(num_moves), int(source) - 1, int(destination) - 1))
+
     return stack_status, move_instructions
+
+
+def _top_elements(stack_status: StackStatus) -> str:
+    return "".join(stack[-1] for stack in stack_status)
 
 
 if __name__ == "__main__":

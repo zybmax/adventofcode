@@ -1,18 +1,7 @@
 """https://adventofcode.com/2022/day/6."""
 import os
-from typing import List, Tuple, Generator, Iterable
+from typing import Generator, Iterable
 from collections import deque
-
-
-NUM_STACKS = 9
-
-
-# The stack status is a list, where the 0th element corresponds to stack 1, the 1st element corresponds to stack 2, etc.
-# Each element is a list of single-character strings, representing the loads from bottom to top.
-StackStatus = List[List[str]]
-# The move instructions is a list of (how_many, from_which, to_which) tuples.  `from_which` and `to_which` are 0-based
-# integers representing stack indices.
-MoveInstructions = List[Tuple[int, int, int]]
 
 
 def main():

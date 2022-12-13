@@ -18,7 +18,7 @@ class Packet:
 
     @staticmethod
     def _is_right_order(left, right):
-        """Returns 1 if the order is right; -1 if the order is wrong; 0 if both are equal."""
+        """Returns 1 if the order is right (left < right); -1 if the order is wrong (left > right); 0 otherwise."""
         for left_item, right_item in zip(left, right):
             if isinstance(left_item, int) and isinstance(right_item, int):
                 if left_item < right_item:
